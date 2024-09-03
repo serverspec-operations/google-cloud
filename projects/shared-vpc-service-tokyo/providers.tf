@@ -1,4 +1,4 @@
 provider "google" {
-  project = "shared-vpc-service-434410"
+  project = "shared-vpc-service-tokyo"
   region  = "asia-northeast1"
 }

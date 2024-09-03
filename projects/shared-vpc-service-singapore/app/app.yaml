@@ -1,0 +1,5 @@
+runtime: go122
+
+vpc_access_connector:
+  name: projects/shared-vpc-host-434409/locations/asia-southeast1/connectors/static-ip-singapore
+  egress_setting: all-traffic
