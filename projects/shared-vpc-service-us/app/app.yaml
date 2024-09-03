@@ -1,0 +1,5 @@
+runtime: go122
+
+vpc_access_connector:
+  name: projects/shared-vpc-host-434409/locations/us-central1/connectors/static-ip-us
+  egress_setting: all-traffic
