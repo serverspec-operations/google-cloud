@@ -3,6 +3,8 @@ resource "google_compute_network" "static_outbound_ip" {
   auto_create_subnetworks = false
 }
 
+### us-central-1
+
 resource "google_compute_router" "static_outbound_ip" {
   name    = "static-outbound-ip-router"
   network = google_compute_network.static_outbound_ip.id
@@ -47,6 +49,26 @@ resource "google_vpc_access_connector" "static_outbound_ip_us" {
 }
 
 ### asia-northeast1
+
+resource "google_compute_address" "static_outbound_ip_tokyo" {
+  name   = "static-outbound-ip"
+  region = "asia-northeast1"
+}
+
+resource "google_compute_router" "static_outbound_ip_tokyo" {
+  name    = "static-outbound-ip-router"
+  network = google_compute_network.static_outbound_ip.id
+  region  = "asia-northeast1"
+}
+
+resource "google_compute_router_nat" "static_outbound_ip_tokyo" {
+  name                               = "static-outbound-ip-nat"
+  region                             = "asia-northeast1"
+  router                             = google_compute_router.static_outbound_ip_tokyo.name
+  nat_ip_allocate_option             = "MANUAL_ONLY"
+  nat_ips                            = [google_compute_address.static_outbound_ip_tokyo.self_link]
+  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_PRIMARY_IP_RANGES"
+}
 
 resource "google_compute_subnetwork" "static_outbound_ip_tokyo" {
   name          = "static-ip-connector-tokyo"
