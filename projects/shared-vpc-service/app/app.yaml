@@ -1,0 +1,5 @@
+runtime: go122
+
+vpc_access_connector:
+  name: projects/shared-vpc-host-434409/locations/asia-northeast1/connectors/static-ip-connector-tokyo
+  egress_setting: all-traffic
