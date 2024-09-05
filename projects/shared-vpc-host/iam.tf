@@ -1,9 +1,3 @@
-resource "google_organization_iam_member" "compute_xpnAdmin" {
-  org_id = data.google_organization.current.org_id
-  member = "user:miyashita@serverspec-operations.com"
-  role   = "roles/compute.xpnAdmin"
-}
-
 data "google_service_account" "terraform" {
   account_id = "terraform"
 }
@@ -24,13 +18,17 @@ resource "google_project_iam_member" "terraform" {
   member  = "serviceAccount:${data.google_service_account.terraform.email}"
 }
 
-resource "google_organization_iam_member" "terraform" {
+data "google_folder" "shared_vpc" {
+  folder = "667746935773"
+}
+
+resource "google_folder_iam_member" "terraform" {
   for_each = toset([
-    "roles/resourcemanager.organizationAdmin",
+    "roles/resourcemanager.folderIamAdmin",
     "roles/compute.xpnAdmin",
   ])
 
-  org_id = data.google_organization.current.org_id
+  folder = data.google_folder.shared_vpc.id
   member = "serviceAccount:${data.google_service_account.terraform.email}"
   role   = each.value
 }
